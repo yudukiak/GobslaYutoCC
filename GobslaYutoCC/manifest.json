@@ -1,0 +1,35 @@
+{
+  "author": "akasaka",
+  "content_scripts": [
+    {
+      "js": [
+        "js/main.js"
+      ],
+      "matches": [
+        "https://yutorize.2-d.jp/ytsheet/gs/?id=*"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "description": "ゆとシートのゴブリンスレイヤーTRPGからココフォリアの駒を生成する",
+  "icons": {
+    "16": "icons/16.png",
+    "64": "icons/64.png",
+    "128": "icons/128.png"
+  },
+  "manifest_version": 3,
+  "name": "GobslaYutoCC",
+  "version": "1.0.0",
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "js/gs.js",
+        "js/html.js",
+        "js/judgmentList.js"
+      ]
+    }
+  ]
+}
