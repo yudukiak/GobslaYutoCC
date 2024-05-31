@@ -17,6 +17,6 @@ GYCC拡張機能
 ![駒の編集](./assets/character.png)
 
 ## インストール
-[Simple URL Copy [F] - Chrome ウェブストア](https://chrome.google.com/webstore/detail/simple-url-copy/kmkdfdfknlkjbmgdenhpeckpdafojnfo)
+[GobslaYutoCC - Chrome ウェブストア](https://chrome.google.com/webstore/detail/GobslaYutoCC/ajofomcfmhjcbkgbkakhoebaefljeflb)
 
 ## 生成されるJSONについて
