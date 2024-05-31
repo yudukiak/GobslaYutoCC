@@ -1,9 +1,9 @@
 (async () => {
-  const htmljs = chrome.runtime.getURL('js/html.js')
-  const { HTML } = await import(htmljs)
-  const html = new HTML()
-  const buttonHtml = html.getButtonHtml()
-  document.querySelector('.back-button').insertAdjacentHTML('afterend', buttonHtml)
+
+ const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
+ const htmlFile = await fetch(htmlFileURL)
+ const html = await htmlFile.text()
+  document.querySelector('.back-button').insertAdjacentHTML('afterend', html)
 
   const gsjs = chrome.runtime.getURL('js/gs.js')
   const { GS } = await import(gsjs)

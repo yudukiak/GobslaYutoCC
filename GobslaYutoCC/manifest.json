@@ -2,6 +2,9 @@
   "author": "akasaka",
   "content_scripts": [
     {
+      "css": [
+        "css/styles.css"
+      ],
       "js": [
         "js/main.js"
       ],
@@ -27,8 +30,8 @@
       ],
       "resources": [
         "js/gs.js",
-        "js/html.js",
-        "js/judgmentList.js"
+        "js/judgmentList.js",
+        "html/gyss.html"
       ]
     }
   ]
