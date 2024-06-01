@@ -290,7 +290,7 @@ export class GS {
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
       commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
       const achievement = (/先制判定|命中判定|呪文行使判定|挑発判定|移動妨害判定/.test(title)) ? '' : '>={達成値}'
-      const commands = `${weaponsVar}2d6${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})`
+      const commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})`
       return commands
     }
     /**
