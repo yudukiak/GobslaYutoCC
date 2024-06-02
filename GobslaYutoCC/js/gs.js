@@ -123,7 +123,7 @@ export class GS {
       const gradeElm = elm.nextElementSibling
       const gradeTxt = gradeElm.textContent
       const gradeTrm = gradeTxt.trim()
-      const gradeArray = ['初歩', '習熟', '熟達', '達人', '伝説']
+      const gradeArray = ['初歩', '習熟', '熟練', '達人', '伝説']
       const gradeIndex = gradeArray.indexOf(gradeTrm)
       // バフ
       const valueRateAry = {
