@@ -23,6 +23,7 @@
         () => alert(`[GYCC] クリップボードへのコピーに失敗しました😭\n\nブラウザの再起動など試してください。`)
       )
     } catch (error) {
+      console.log('[GYCC] - error:', error)
       alert(`[GYCC] 駒の作成に失敗しました😭\n\nerror: ${error}`)
     }
   })
