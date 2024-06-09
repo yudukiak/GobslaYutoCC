@@ -40,9 +40,25 @@
     */
   }
 
+  // 設定を読み込み
+  const characterSheetID = new URL(location.href).searchParams.get('id')
+  chrome.storage.sync.get().then((items) => {
+    const options = items[characterSheetID]
+    if (options == null) return
+    Object.keys(options).forEach((key) => {
+      const value = options[key]
+      if (typeof value === 'boolean') {
+        document.querySelector(`#gycc_${key}`).checked = value
+      } else {
+        document.querySelector(`#gycc_${key}`).value = value
+      }
+    })
+  })
+
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
     const options = getOptions()
+    chrome.storage.sync.set({[characterSheetID]:options})
     try {
       const json = gs.getJson(options)
       navigator.clipboard.writeText(json).then(

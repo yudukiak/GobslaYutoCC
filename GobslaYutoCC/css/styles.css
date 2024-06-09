@@ -1,6 +1,6 @@
 :root {
   --gycc-color: #000;
-  
+
   &.night {
     --gycc-color: #fff;
 
@@ -18,10 +18,16 @@
       margin: .3rem .5em;
       line-height: 1.8;
       text-align: center;
+    }
+  }
 
-      h2 {
-        text-align: left;
-      }
+  section {
+    div {
+      margin: .5em 1em;
+    }
+
+    h2 {
+      text-align: left;
     }
   }
 
@@ -30,7 +36,7 @@
   }
 
   .btn {
-    margin: 1.5rem 0;
+    margin: 1.5em 1em 1.8em;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.5;
