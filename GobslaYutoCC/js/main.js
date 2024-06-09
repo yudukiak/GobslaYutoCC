@@ -1,4 +1,18 @@
 (async () => {
+  /**
+   * オプションを取得
+   * @returns {{string: any}}
+   */
+  const getOptions = _ => {
+    const options = {}
+    Array.from(document.querySelectorAll('#gycc input')).forEach(elm => {
+      const id = elm.id.replace(/gycc_/, '')
+      const type = elm.type
+      const value = (/checkbox/.test(type)) ? elm.checked : elm.value
+      options[id] = value
+    })
+    return options
+  }
 
  const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
  const htmlFile = await fetch(htmlFileURL)
@@ -11,11 +25,7 @@
 
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
-    const options = {
-      title: document.getElementById('gycc_title')?.checked,
-      add: document.getElementById('gycc_add')?.checked,
-      sup: document.getElementById('gycc_sup')?.checked
-    }
+    const options = getOptions()
     try {
       const json = gs.getJson(options)
       navigator.clipboard.writeText(json).then(
