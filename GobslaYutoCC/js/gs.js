@@ -541,7 +541,19 @@ export class GS {
     const abilityArray = this.getAbilityArray()
     const classesArray = this.getClassesArray()
     const skillsArray = this.getSkillsArray()
-    const paramsArray = [...abilityArray, ...classesArray, ...skillsArray]
+    // 存在しない技能
+    const notSkillsArray = (_ => {
+      // 判定一覧を全部取ってくる
+      const jl = new JL()
+      const allClassesArray = jl.getAllClassesArray()
+      const allSkillsArray = jl.getAllSkillsArray()
+      const allArray = [...allClassesArray, ...allSkillsArray]
+      const hasArray = [...abilityArray, ...classesArray, ...skillsArray].map(obj => obj.label)
+      const diffArray = allArray.filter(item => !hasArray.includes(item))
+      const resArray = diffArray.map(label => ({ label: label, value: '0' }))
+      return resArray
+    })()
+    const paramsArray = [...abilityArray, ...classesArray, ...skillsArray, ...notSkillsArray]
     const params = paramsArray.reduce((accumulator, object) => {
       // 元のアイテムを追加
       const pushObject = { label: object.label, value: object.value.toString() }
