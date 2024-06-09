@@ -143,7 +143,7 @@ export class JL {
     let commandsArray = [...mainArray]
     if (options.add) commandsArray.push(addArray)
     if (options.sup) commandsArray.push(supArray)
-    
+
     return commandsArray
   }
   getAllClassesArray() {

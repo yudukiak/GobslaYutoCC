@@ -14,9 +14,9 @@
     return options
   }
 
- const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
- const htmlFile = await fetch(htmlFileURL)
- const html = await htmlFile.text()
+  const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
+  const htmlFile = await fetch(htmlFileURL)
+  const html = await htmlFile.text()
   document.querySelector('.back-button').insertAdjacentHTML('afterend', html)
 
   const gsjs = chrome.runtime.getURL('js/gs.js')
@@ -58,7 +58,7 @@
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
     const options = getOptions()
-    chrome.storage.sync.set({[characterSheetID]:options})
+    chrome.storage.sync.set({ [characterSheetID]: options })
     try {
       const json = gs.getJson(options)
       navigator.clipboard.writeText(json).then(

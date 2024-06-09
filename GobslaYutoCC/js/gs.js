@@ -267,7 +267,7 @@ export class GS {
         }).filter(Boolean)[0]
         return jobs || ''
       })()
-      const obj = {name: name, type:type, hit:hit, power:power, jobs:jobs}
+      const obj = { name: name, type: type, hit: hit, power: power, jobs: jobs }
       return obj
     })
     return weponsAry
