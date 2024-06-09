@@ -281,16 +281,19 @@ export class GS {
       // 武器 {label: string, value: number} || null
       let weaponsVar = ''
       let weaponsTxt = ''
+      let weaponsPower = ''
       if (weapons) {
         const weaponsLabel = weapons.label
         weaponsVar = `//${weaponsLabel}=${weapons.value}\n`
         weaponsTxt = `+{${weaponsLabel}}`
         averageNumber = averageNumber + weapons.value
+        // ダメージ
+        if (weapons.power) weaponsPower = `\n${weapons.power} 〈${weapons.label} ダメージ〉}`
       }
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
       commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
       const achievement = (/先制判定|命中判定|呪文行使判定|挑発判定|移動妨害判定/.test(title)) ? '' : `>={${options.targetValue}}`
-      const commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})`
+      const commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
       return commands
     }
     /**
@@ -352,6 +355,8 @@ export class GS {
               }).filter(Boolean)[0]
               return jobs
             })()
+            // 威力（ダメージ）
+            const power = elm.querySelector('.power').innerText.trim()
             const newObject = {
               ...object,
               title: `${object.title}${index + 1}.${weaponsName}）`,
@@ -359,7 +364,8 @@ export class GS {
               skills: [`武器：${weaponsType}`, '超命中'],
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
-                value: weaponsBuff
+                value: weaponsBuff,
+                power: power
               }
             }
             return newObject
