@@ -15,13 +15,18 @@
 
     section {
       width: 50%;
+      margin: .3rem .5em;
+      line-height: 1.8;
+      text-align: center;
+
+      h2 {
+        text-align: left;
+      }
     }
   }
 
-  .box-container {
-    margin: .3rem .5em;
-    line-height: 1.8;
-    text-align: center;
+  .d-none {
+    display: none;
   }
 
   .btn {

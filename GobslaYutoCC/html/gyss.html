@@ -1,33 +1,34 @@
 <article id="gycc">
   <section class="box">
     <h2>「GYCC拡張機能」設定</h2>
-    <div class="box-container">
-      <div class="check">
-        <!--
-        <div>
-          <input type="checkbox" id="gycc_title" name="gycc_title"/>
-          <label for="gycc_title">技能判定の説明を出力</label>
-        </div>
-        -->
-        <div>
-          <input type="checkbox" id="gycc_add" name="gycc_add" checked />
-          <label for="gycc_add">判定一覧に無い技能も出力</label>
-        </div>
-        <div>
-          <input type="checkbox" id="gycc_sup" name="gycc_sup" checked />
-          <label for="gycc_sup">サプリで追加された技能も出力</label>
-        </div>
-        <div>
-          <label for="gycc_targetValue">「ルーム変数」名</label>
-          <input type="text" id="gycc_targetValue" value="目標値">
-        </div>
-      </div>
-      <div class="btn">
-        <svg>
-          <rect x="2" y="2" rx="0" fill="none" width=200 height="50"></rect>
-        </svg>
-        <span>コピーする</span>
-      </div>
+    <!--
+    <div>
+      <input type="checkbox" id="gycc_title" name="gycc_title"/>
+      <label for="gycc_title">技能判定の説明を出力</label>
+    </div>
+    -->
+    <div>
+      <input type="checkbox" id="gycc_add" name="gycc_add" checked />
+      <label for="gycc_add">判定一覧に無い技能も出力</label>
+    </div>
+    <div>
+      <input type="checkbox" id="gycc_sup" name="gycc_sup" checked />
+      <label for="gycc_sup">サプリで追加された技能も出力</label>
+    </div>
+    <div>
+      <label for="gycc_targetValue">「ルーム変数」名</label>
+      <input type="text" id="gycc_targetValue" value="目標値">
+    </div>
+    <div class="d-none">
+      <label for="gycc_parry">受け流し</label>
+      <input type="number" id="gycc_parry" value="0">
+    </div>
+    <h2>駒を生成する</h2>
+    <div class="btn">
+      <svg>
+        <rect x="2" y="2" rx="0" fill="none" width=200 height="50"></rect>
+      </svg>
+      <span>コピーする</span>
     </div>
   </section>
 </article>

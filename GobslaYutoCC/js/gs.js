@@ -223,9 +223,61 @@ export class GS {
   }
 
   /**
+   * 「武器」の配列を返す
+   * @returns {{name: name, type:type, hit:hit, power:power, jobs:jobs}[]} {name: 武器名, type:武器種, hit:命中, power:威力, jobs:職業}
+   */
+  getWeaponsArray() {
+    const weponsAry = Array.from(document.querySelectorAll('#weapons tbody:has(.name)')).map(element => {
+      const elm = element.cloneNode(true)
+      // 武器名
+      const name = elm.querySelector('.name').innerText.trim()
+      // 武器種（【武器：〇〇】に使用）
+      const type = (_ => {
+        const typeElm = elm.querySelector('.type')
+        const spanElm = typeElm.querySelector('span')
+        if (spanElm) spanElm.innerHTML = ''
+        const type = typeElm.innerText.trim()
+        return type
+      })()
+      // 武器のみの命中
+      let hit = 0
+      // 威力（ダメージ）
+      const power = elm.querySelector('.power').innerText.trim()
+      // 職業
+      const jobs = (_ => {
+        // 合計値
+        const sumElm = elm.querySelector('.hit b')
+        const sumTxt = sumElm.innerText
+        const sumNum = Number(sumTxt)
+        sumElm.innerHTML = ''
+        // バフ
+        const hitElm = elm.querySelector('.hit')
+        const hitTxt = hitElm.innerText.replace(/=/g, '')
+        const hitNum = Number(hitTxt)
+        hit = hitNum
+        // 合計値からバフを引いて職業と照らし合わせ
+        const num = (hitTxt.length) ? sumNum - hitNum : sumNum
+        const jobs = Array.from(document.querySelectorAll('#attack-classes tbody tr:has(.name)')).map(e => {
+          const nameElm = e.querySelector('.name')
+          const name = nameElm.innerText.trim()
+          const t = (/弩弓/.test(type)) ? 'projectile' : (/投擲武器/.test(type)) ? 'throwing' : 'melee'
+          const nElm = e.querySelector(`[id*="attack-\${ename}-${t}"]`)
+          const n = nElm.innerText.trim()
+          if (n == num) return name
+        }).filter(Boolean)[0]
+        return jobs || ''
+      })()
+      const obj = {name: name, type:type, hit:hit, power:power, jobs:jobs}
+      return obj
+    })
+    return weponsAry
+  }
+
+  /**
    * 
    */
-  getCommands(options) {
+  getCommands() {
+    const options = this.options
     /**
      * チャパレのタイトル
      * @param {*} object 
@@ -357,6 +409,8 @@ export class GS {
             })()
             // 威力（ダメージ）
             const power = elm.querySelector('.power').innerText.trim()
+            // 受け流し
+            const parry = options[`parry${index}`]
             const newObject = {
               ...object,
               title: `${object.title}${index + 1}.${weaponsName}）`,
@@ -365,7 +419,8 @@ export class GS {
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
                 value: weaponsBuff,
-                power: power
+                power: power,
+                parry: parry
               }
             }
             return newObject
@@ -464,6 +519,8 @@ export class GS {
    * @returns {String} ココフォリアで駒生成ができるJSON
    */
   getJson(options) {
+    // インスタンス変数に存在しない場合は保存
+    if (this.options == null) this.options = options
     // 名前
     const name = document.getElementById('character-name').innerText
     // メモ
@@ -491,7 +548,8 @@ export class GS {
       accumulator.push(pushObject)
       // addがある場合は補正パラメータを追加
       if (object.add != null) {
-        const addObject = { label: `${object.label}補正`, value: `[ ${object.label}補正${object.add} ]` }
+        const addValue = (object.label == '受け流し') ? options.parry : `${object.label}補正`
+        const addObject = { label: `${object.label}補正`, value: addValue }
         accumulator.push(addObject)
       }
       return accumulator
@@ -518,7 +576,7 @@ export class GS {
     })()
 
     // コマンドを作成
-    const commands = this.getCommands(options)
+    const commands = this.getCommands()
 
     // JSONを作成
     const object = {
