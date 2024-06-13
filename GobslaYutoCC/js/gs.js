@@ -488,6 +488,7 @@ export class GS {
           const replacements = ['集中', '持久', '反射']
           replacements.forEach(replacement => {
             const newObject = { ...object, ability: object.ability.map(ability => ability === 'GM' ? replacement : ability) }
+            newObject.title = `${newObject.title}（${newObject.ability.join('')}）`.replace(/）（/, ' ')
             accumulator.push(newObject)
           })
         }
