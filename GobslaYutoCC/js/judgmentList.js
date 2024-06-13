@@ -72,7 +72,7 @@ export class JL {
     const addArray = [
       { title: '技能一覧にて掲載されている判定', },
       { title: '不意打ち判定', ability: ['技量', '集中'], classes: ['斥候', '野伏'], skills: ['機先', '隠密', '影渡り', '霧化'] },
-      { title: '戦術移動判定', ability: ['知力', '集中'], skills: ['戦術移動'] },
+      { title: '戦術移動判定', ability: ['知力', '集中'], classes: ['冒険者'], skills: ['戦術移動'] },
       { title: '祈念判定', skills: ['幸運'] },
       { title: '手仕事判定（操作系判定）', ability: ['技量', 'GM'], classes: ['斥候'], skills: ['手仕事'] },
       { title: '統率判定', ability: ['魂魄', 'GM'], skills: ['統率'] },
