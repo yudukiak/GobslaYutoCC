@@ -14,8 +14,8 @@ export class JL {
         { title: '呪文抵抗判定', ability: ['魂魄', '反射'], classes: ['冒険者'], skills: ['呪文抵抗'] },
         { title: '挑発判定', ability: ['魂魄', '集中'], classes: ['戦士', '武道家'], skills: ['挑発'] },
         { title: '移動妨害判定', ability: ['体力', '反射'], classes: ['戦士'], skills: ['鉄壁'] },
-        { title: '移動妨害への対抗判定', ability: ['体力', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['すり抜け'] },
-        { title: '移動妨害への対抗判定', ability: ['技量', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['すり抜け'] },
+        { title: '移動妨害への対抗判定（体力集中）', ability: ['体力', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['すり抜け'] },
+        { title: '移動妨害への対抗判定（技量集中）', ability: ['技量', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['すり抜け'] },
       ],
       [
         { title: '抵抗系判定', },
@@ -64,8 +64,8 @@ export class JL {
       [
         { title: '移動系判定', },
         { title: '移動妨害判定', ability: ['体力', '反射'], classes: ['戦士'], skills: ['鉄壁', '超反射'] },
-        { title: '移動妨害への対抗判定', ability: ['体力', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['超反射'] },
-        { title: '移動妨害への対抗判定', ability: ['技量', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['超反射'] },
+        { title: '移動妨害への対抗判定（体力集中）', ability: ['体力', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['超反射'] },
+        { title: '移動妨害への対抗判定（技量集中）', ability: ['技量', '集中'], classes: ['戦士', '武道家', '斥候'], skills: ['超反射'] },
         { title: '長距離移動判定', ability: ['体力', '持久'], classes: ['冒険者'], skills: ['長距離移動'] },
       ]
     ]
