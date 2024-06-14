@@ -1,15 +1,24 @@
 (async () => {
   /**
    * オプションを取得
+   * @param {string} characterSheetID
    * @returns {{string: any}}
    */
-  const getOptions = _ => {
-    const options = {}
+  const getOptions = characterSheetID => {
+    // localに含まれる設定はキャラクターごと
+    const local = ['parry']
+    // optionsを生成
+    const options = {[characterSheetID]:{}, global:{}}
     Array.from(document.querySelectorAll('#gycc input')).forEach(elm => {
       const id = elm.id.replace(/gycc_/, '')
       const type = elm.type
       const value = (/checkbox/.test(type)) ? elm.checked : elm.value
-      options[id] = value
+      // localの対象はキャラクターIDに振り分け
+      if (local.includes(id)) {
+        options[characterSheetID][id] = value
+      } else {
+        options.global[id] = value
+      }
     })
     return options
   }
@@ -42,23 +51,30 @@
 
   // 設定を読み込み
   const characterSheetID = new URL(location.href).searchParams.get('id')
+  let chromeStorageOptions = null
   chrome.storage.sync.get().then((items) => {
-    const options = items[characterSheetID]
-    if (options == null) return
-    Object.keys(options).forEach((key) => {
-      const value = options[key]
-      if (typeof value === 'boolean') {
-        document.querySelector(`#gycc_${key}`).checked = value
-      } else {
-        document.querySelector(`#gycc_${key}`).value = value
-      }
-    })
+    chromeStorageOptions = items
+    const setOptions = options => {
+      if (options == null) return
+      Object.keys(options).forEach((key) => {
+        const value = options[key]
+        if (typeof value === 'boolean') {
+          document.querySelector(`#gycc_${key}`).checked = value
+        } else {
+          document.querySelector(`#gycc_${key}`).value = value
+        }
+      })
+    }
+    const localOptions = items[characterSheetID]
+    const globalOptions = items.global
+    setOptions(localOptions)
+    setOptions(globalOptions)
   })
 
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
-    const options = getOptions()
-    chrome.storage.sync.set({ [characterSheetID]: options })
+    const options = getOptions(characterSheetID)
+    chrome.storage.sync.set(options)
     try {
       const json = gs.getJson(options)
       navigator.clipboard.writeText(json).then(
