@@ -41,13 +41,13 @@
   // 設定を読み込み
   const characterSheetID = new URL(location.href).searchParams.get('id')
   let chromeStorageOptions = null
-  chrome.storage.sync.get().then((items) => {
-    console.log('[GYCC] - items:', items)
-    chromeStorageOptions = items
-    const setOptions = options => {
-      if (options == null) return
-      Object.keys(options).forEach((key) => {
-        const value = options[key]
+  chrome.storage.sync.get().then((options) => {
+    console.log('[GYCC] - get - options:', options)
+    chromeStorageOptions = options
+    const setOptions = opt => {
+      if (opt == null) return
+      Object.keys(opt).forEach((key) => {
+        const value = opt[key]
         if (typeof value === 'boolean') {
           document.querySelector(`#gycc_${key}`).checked = value
         } else {
@@ -55,8 +55,8 @@
         }
       })
     }
-    const localOptions = items[characterSheetID]
-    const globalOptions = items.global
+    const localOptions = options[characterSheetID]
+    const globalOptions = options.global
     setOptions(localOptions)
     setOptions(globalOptions)
   })
@@ -65,6 +65,7 @@
   buttonElm.addEventListener('click', e => {
     const options = getOptions(characterSheetID)
     chrome.storage.sync.set(options)
+    console.log('[GYCC] - set - options:', options)
     try {
       const json = gs.getJson(options)
       console.log('[GYCC] - object:', JSON.parse(json))
