@@ -8,7 +8,7 @@
     // localに含まれる設定はキャラクターごと
     const local = ['parry']
     // optionsを生成
-    const options = {[characterSheetID]:{}, global:{}}
+    const options = { [characterSheetID]: {}, global: {} }
     Array.from(document.querySelectorAll('#gycc input')).forEach(elm => {
       const id = elm.id.replace(/gycc_/, '')
       const type = elm.type
