@@ -14,14 +14,15 @@
     align-items: center;
 
     section {
-      width: 50%;
-      margin: .3rem .5em;
-      line-height: 1.8;
-      text-align: center;
+      width: 75%;
     }
   }
 
   section {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+
     div {
       margin: .5em 1em;
     }
@@ -33,6 +34,10 @@
 
   .d-none {
     display: none;
+  }
+
+  .d-flex-full {
+    flex: 1 1 100%;
   }
 
   .btn {

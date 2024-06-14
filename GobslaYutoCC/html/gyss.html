@@ -1,6 +1,6 @@
 <article id="gycc">
   <section class="box">
-    <h2>「GYCC拡張機能」設定</h2>
+    <h2 class="d-flex-full">「GYCC拡張機能」設定</h2>
     <!--
     <div>
       <input type="checkbox" id="gycc_title" name="gycc_title"/>
@@ -16,6 +16,10 @@
       <label for="gycc_sup">サプリで追加された技能も出力</label>
     </div>
     <div>
+      <input type="checkbox" id="gycc_ruby" name="gycc_ruby" />
+      <label for="gycc_ruby">武器・防具のルビを付ける</label>
+    </div>
+    <div>
       <label for="gycc_targetValue">「ルーム変数」名</label>
       <input type="text" id="gycc_targetValue" value="目標値">
     </div>
@@ -23,12 +27,14 @@
       <label for="gycc_parry">「受け流し」の補正値</label>
       <input type="number" id="gycc_parry" value="0">
     </div>
-    <h2>駒を生成する</h2>
-    <div class="btn">
-      <svg>
-        <rect x="2" y="2" rx="0" fill="none" width=200 height="50"></rect>
-      </svg>
-      <span>コピーする</span>
+    <h2 class="d-flex-full">駒を生成する</h2>
+    <div class="d-flex-full">
+      <div class="btn">
+        <svg>
+          <rect x="2" y="2" rx="0" fill="none" width=200 height="50"></rect>
+        </svg>
+        <span>コピーする</span>
+      </div>
     </div>
   </section>
 </article>

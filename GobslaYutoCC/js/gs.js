@@ -372,6 +372,7 @@ export class GS {
           const replacements = Array.from(document.querySelectorAll('#weapons tbody:has(.name)')).map((element, index) => {
             const elm = element.cloneNode(true)
             // 武器名
+            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
             const weaponsName = elm.querySelector('.name').innerText.trim()
             // 武器種（【武器：〇〇】に使用）
             const weaponsType = (_ => {
@@ -413,7 +414,7 @@ export class GS {
             const parry = options[`parry${index}`]
             const newObject = {
               ...object,
-              title: `${object.title}${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}）`,
               classes: [weaponsJobs],
               skills: [`武器：${weaponsType}`, '超命中'],
               weapons: {
@@ -431,6 +432,7 @@ export class GS {
           const replacements = Array.from(document.querySelectorAll('#shield tbody:has(.name)')).map((element, index) => {
             const elm = element.cloneNode(true)
             // 武器名
+            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
             const weaponsName = elm.querySelector('.name').innerText.trim()
             // 武器のバフ
             const sumElm = elm.querySelector('.block b')
@@ -441,7 +443,7 @@ export class GS {
             // オブジェクト
             const newObject = {
               ...object,
-              title: `${object.title}${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}）`,
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
                 value: weaponsBuff
@@ -455,6 +457,7 @@ export class GS {
           const replacements = Array.from(document.querySelectorAll('#armor tbody:has(.name)')).map((element, index) => {
             const elm = element.cloneNode(true)
             // 武器名
+            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
             const weaponsName = elm.querySelector('.name').innerText.trim()
             // 武器のバフ
             const sumElm = elm.querySelector('.dodge b')
@@ -465,7 +468,7 @@ export class GS {
             // オブジェクト
             const newObject = {
               ...object,
-              title: `${object.title}${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}）`,
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
                 value: weaponsBuff
