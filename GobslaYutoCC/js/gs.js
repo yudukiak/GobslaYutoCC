@@ -593,6 +593,15 @@ export class GS {
 
     // コマンドを作成
     const commands = this.getCommands()
+    // クリックアクション用のパラメータを追加
+    if (options.clickAction) {
+      commands.split('\n').forEach(val => {
+        const label = val.match(/〈(.*判定.*)〉/)
+        const value = val.replace(/(>={| ).*/, '')
+        if (label) params.push({label: label[1], value: value})
+      })
+    }
+    
 
     // JSONを作成
     const object = {
