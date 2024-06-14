@@ -638,7 +638,6 @@ export class GS {
         commands: commands
       }
     }
-    console.log('[GYCC] - GS - getJson - object:', object)
     const json = JSON.stringify(object)
     return json
   }

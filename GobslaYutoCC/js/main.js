@@ -42,6 +42,7 @@
   const characterSheetID = new URL(location.href).searchParams.get('id')
   let chromeStorageOptions = null
   chrome.storage.sync.get().then((items) => {
+    console.log('[GYCC] - items:', items)
     chromeStorageOptions = items
     const setOptions = options => {
       if (options == null) return
@@ -66,6 +67,7 @@
     chrome.storage.sync.set(options)
     try {
       const json = gs.getJson(options)
+      console.log('[GYCC] - object:', JSON.parse(json))
       navigator.clipboard.writeText(json).then(
         () => alert('[GYCC] クリップボードにコピーしました👍\n\nココフォリアにペーストすることで駒を作成できます。'),
         () => alert(`[GYCC] クリップボードへのコピーに失敗しました😭\n\nブラウザの再起動など試してください。`)
