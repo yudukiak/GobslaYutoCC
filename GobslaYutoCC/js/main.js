@@ -34,19 +34,8 @@
 
   // 受け流しがある場合、記入欄を追加
   if (gs.getSkillsMaxValue(['受け流し'])) {
-    const parryParentElm = document.getElementById('gycc_parry').parentNode
-    parryParentElm.classList.remove('d-none')
-    /*
-    const htmlAry = gs.getWeaponsArray().map((object, index) => {
-      const id = `gycc_parry${index}`
-      const labelHtml = `<label for="${id}">${object.name}</label>` 
-      const numberHtml = `<input type="number" id="${id}" value="0">`
-      const divHtml = `<div>${labelHtml}${numberHtml}</div>`
-      return divHtml
-    })
-    const htmlText = `<h2>受け流し</h2>${htmlAry.join('')}`
-    document.querySelector('#gycc h2:last-of-type').insertAdjacentHTML('beforebegin', htmlText)
-    */
+    const parryParentElm = document.getElementById('gycc_parry')
+    parryParentElm.disabled = false
   }
 
   // 設定を読み込み

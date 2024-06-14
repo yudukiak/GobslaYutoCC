@@ -30,6 +30,10 @@
     h2 {
       text-align: left;
     }
+
+    input:disabled {
+      background-color: var(--box-outside-border-color);
+    }
   }
 
   .d-none {
