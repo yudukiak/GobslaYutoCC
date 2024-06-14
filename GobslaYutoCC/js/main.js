@@ -40,10 +40,8 @@
 
   // 設定を読み込み
   const characterSheetID = new URL(location.href).searchParams.get('id')
-  let chromeStorageOptions = null
   chrome.storage.sync.get().then((options) => {
     console.log('[GYCC] - get - options:', options)
-    chromeStorageOptions = options
     const setOptions = opt => {
       if (opt == null) return
       Object.keys(opt).forEach((key) => {
@@ -66,8 +64,9 @@
     const options = getOptions(characterSheetID)
     chrome.storage.sync.set(options)
     console.log('[GYCC] - set - options:', options)
+    const gsOptions = {...options.global, ...options[characterSheetID]}
     try {
-      const json = gs.getJson(options)
+      const json = gs.getJson(gsOptions)
       console.log('[GYCC] - object:', JSON.parse(json))
       navigator.clipboard.writeText(json).then(
         () => alert('[GYCC] クリップボードにコピーしました👍\n\nココフォリアにペーストすることで駒を作成できます。'),
