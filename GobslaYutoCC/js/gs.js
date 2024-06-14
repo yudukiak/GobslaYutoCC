@@ -414,7 +414,7 @@ export class GS {
             const parry = options[`parry${index}`]
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}`,
               classes: [weaponsJobs],
               skills: [`武器：${weaponsType}`, '超命中'],
               weapons: {
@@ -443,7 +443,7 @@ export class GS {
             // オブジェクト
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}`,
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
                 value: weaponsBuff
@@ -468,7 +468,7 @@ export class GS {
             // オブジェクト
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}）`,
+              title: `${object.title} ${index + 1}.${weaponsName}`,
               weapons: {
                 label: `${index + 1}.${weaponsName}`,
                 value: weaponsBuff
