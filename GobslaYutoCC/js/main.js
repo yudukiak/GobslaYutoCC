@@ -27,6 +27,9 @@
   const htmlFile = await fetch(htmlFileURL)
   const html = await htmlFile.text()
   document.querySelector('.back-button').insertAdjacentHTML('afterend', html)
+  
+  const manifestFile = chrome.runtime.getManifest()
+  document.getElementById('version').innerText = manifestFile.version
 
   const gsjs = chrome.runtime.getURL('js/gs.js')
   const { GS } = await import(gsjs)
