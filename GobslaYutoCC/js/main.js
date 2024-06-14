@@ -78,4 +78,10 @@
       alert(`[GYCC] 駒の作成に失敗しました😭\n\nerror: ${error}`)
     }
   })
+
+  const clearElm = document.getElementById('gycc_storageClear')
+  clearElm.addEventListener('click', e => chrome.storage.sync.clear().then(_ => {
+    alert('[GYCC] 設定を削除しました。')
+    location.reload()
+  }))
 })()
