@@ -412,59 +412,18 @@ export class GS {
       // 特定の判定は配列を追加する必要がある
       const replaceArray = array.reduce((accumulator, object) => {
         if (object.title === '命中判定') {
-          const replacements = Array.from(document.querySelectorAll('#weapons tbody:has(.name)')).map((element, index) => {
-            const elm = element.cloneNode(true)
-            // 武器名
-            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
-            const weaponsName = elm.querySelector('.name').innerText.trim()
-            // 武器種（【武器：〇〇】に使用）
-            const weaponsType = (_ => {
-              const typeElm = elm.querySelector('.type')
-              const spanElm = typeElm.querySelector('span')
-              if (spanElm) spanElm.innerHTML = ''
-              const type = typeElm.innerText.trim()
-              return type
-            })()
-            // 武器のバフ
-            let weaponsBuff = 0
-            // 職業
-            const weaponsJobs = (_ => {
-              // 合計値
-              const sumElm = elm.querySelector('.hit b')
-              const sum = sumElm.innerText
-              const sumNum = Number(sum)
-              sumElm.innerHTML = ''
-              // バフ
-              const hitElm = elm.querySelector('.hit')
-              const hit = hitElm.innerText.replace(/=/g, '')
-              const hitNum = Number(hit)
-              weaponsBuff = hitNum
-              // 合計値からバフを引いて職業と照らし合わせ
-              const num = (hit.length) ? sumNum - hitNum : sumNum
-              const jobs = Array.from(document.querySelectorAll('#attack-classes tbody tr:has(.name)')).map(e => {
-                const nameElm = e.querySelector('.name')
-                const name = nameElm.innerText.trim()
-                const t = (/弩弓/.test(weaponsType)) ? 'projectile' : (/投擲武器/.test(weaponsType)) ? 'throwing' : 'melee'
-                const nElm = e.querySelector(`[id*="attack-\${ename}-${t}"]`)
-                const n = nElm.innerText.trim()
-                if (n == num) return name
-              }).filter(Boolean)[0]
-              return jobs
-            })()
-            // 威力（ダメージ）
-            const power = elm.querySelector('.power').innerText.trim()
-            // 受け流し
-            const parry = options[`parry${index}`]
+          const weponsArray = this.getWeaponsArray()
+          const replacements = weponsArray.map((obj, index) => {
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}`,
-              classes: [weaponsJobs],
-              skills: [`武器：${weaponsType}`, '超命中'],
+              title: `${object.title} ${index + 1}.${obj.name}`,
+              classes: [obj.jobs],
+              skills: [`武器：${obj.type}`, '超命中'],
               weapons: {
-                label: `${index + 1}.${weaponsName}`,
-                value: weaponsBuff,
-                power: power,
-                parry: parry
+                label: `${index + 1}.${obj.name}`,
+                value: obj.hit,
+                power: obj.power,
+                parry: options[`parry${index}`]
               }
             }
             return newObject
