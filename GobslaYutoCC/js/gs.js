@@ -278,10 +278,12 @@ export class GS {
    * @returns {{name: string, type:string, attr:string[], system:string, jobs:string}[], dfclt:stirng} {name: 武器名, type:種別, attr:属性, system:呪文系統, jobs:職業, dfclt:難易度}
    */
   getSpellsArray() {
+    const options = this.options
     const spellsAry = Array.from(document.querySelectorAll('#spells tbody tr:has(.name)')).map(element => {
       const elm = element.cloneNode(true)
       // 呪文名
-      const name = elm.querySelector('.name').innerText.trim()
+      if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
+        const name = elm.querySelector('.name').innerText.trim()
       // 種別（【呪文熟達：〇〇】に使用）
       const typeElm = elm.querySelector('.type')
       const type = typeElm.innerText.replace(/\(.*\)/, '').trim()
@@ -521,7 +523,11 @@ export class GS {
             spellsArray.forEach(spellsObject => {
               // 一致しない職業は除外
               if (classes != spellsObject.jobs) return
-              const newObject = { ...object, classes: [classes], spells: spellsObject }
+              // 呪文熟達を持っているか
+              const skillsMax = this.getSkillsMaxValue([`呪文熟達：${spellsObject.type}`])
+              const skills = (skillsMax) ? [`呪文熟達：${spellsObject.type}`] : object.skills
+              // オブジェクトを作成
+              const newObject = { ...object, classes: [classes], skills: skills, spells: spellsObject }
               accumulator.push(newObject)
             })
             // 配列ではなく単一のクラスとして設定
