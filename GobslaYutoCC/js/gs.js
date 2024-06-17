@@ -643,7 +643,6 @@ export class GS {
 
     // 武器の命中基準値
     const weaponsArray = this.getWeaponsArray()
-    console.log('👘 - getJson - weaponsArray:', weaponsArray)
     weaponsArray.forEach((object, index) => {
       const weaponsName = object.name
       const label = `${index + 1}.${weaponsName}`
