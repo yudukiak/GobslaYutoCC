@@ -274,6 +274,28 @@ export class GS {
   }
 
   /**
+   * 「呪文」の配列を返す
+   * @returns {{name: string, type:string, attr:string[], system:string, jobs:string}[]} {name: 武器名, type:種別, attr:属性, system:呪文系統, jobs:職業}
+   */
+  getSpellsArray() {
+    const spellsAry = Array.from(document.querySelectorAll('#spells tbody tr:has(.name)')).map(element => {
+      const elm = element.cloneNode(true)
+      // 呪文名
+      const name = elm.querySelector('.name').innerText.trim()
+      // 種別（【呪文熟達：〇〇】に使用）
+      const typeElm = elm.querySelector('.type')
+      const type = typeElm.innerText.replace(/\(.*\)/, '').trim()
+      const attr = typeElm.innerText.replace(/.*\(|\).*/g, '').trim().split('、')
+      // 呪文系統
+      const system = elm.querySelector('.system').innerText.trim()
+      const jobs = {'真言呪文': '魔術師', '奇跡': '神官', '祖竜術': '竜司祭', '精霊術': '精霊使い', '死霊術': '死人占い師'}[system]
+      const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs }
+      return obj
+    })
+    return spellsAry
+  }
+
+  /**
    * 
    */
   getCommands() {
