@@ -308,6 +308,28 @@ export class GS {
   /**
    * 
    */
+  getArmorsArray() {
+    const options = this.options
+    const armorsAry = Array.from(document.querySelectorAll('#armor tbody:has(.name)')).map(element => {
+      const elm = element.cloneNode(true)
+      // 防具名
+      if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
+      const name = elm.querySelector('.name').innerText.trim()
+      // 回避基準値
+      const sumElm = elm.querySelector('.dodge b')
+      if (sumElm) sumElm.innerHTML = ''
+      const dodgeElm = elm.querySelector('.dodge')
+      const dodge = dodgeElm.innerText.trim().replace(/=/g, '')
+      const value = Number(dodge)
+      const obj = { name: name, value: value }
+      return obj
+    })
+    return armorsAry
+  }
+
+  /**
+   * 
+   */
   getCommands() {
     const options = this.options
     /**
@@ -456,24 +478,14 @@ export class GS {
           replacements.forEach(replacement => accumulator.push(replacement))
         }
         else if (object.title === '回避判定') {
-          const replacements = Array.from(document.querySelectorAll('#armor tbody:has(.name)')).map((element, index) => {
-            const elm = element.cloneNode(true)
-            // 武器名
-            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
-            const weaponsName = elm.querySelector('.name').innerText.trim()
-            // 武器のバフ
-            const sumElm = elm.querySelector('.dodge b')
-            if (sumElm) sumElm.innerHTML = ''
-            const dodgeElm = elm.querySelector('.dodge')
-            const dodge = dodgeElm.innerText.trim().replace(/=/g, '')
-            const weaponsBuff = Number(dodge)
-            // オブジェクト
+          const armorsArray = this.getArmorsArray()
+          const replacements = armorsArray.map((obj, index) => {
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}`,
+              title: `${object.title} ${index + 1}.${obj.name}`,
               weapons: {
-                label: `${index + 1}.${weaponsName}`,
-                value: weaponsBuff
+                label: `${index + 1}.${obj.name}`,
+                value: obj.value
               }
             }
             return newObject
