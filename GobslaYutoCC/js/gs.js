@@ -275,7 +275,7 @@ export class GS {
 
   /**
    * 「呪文」の配列を返す
-   * @returns {{name: string, type:string, attr:string[], system:string, jobs:string}[]} {name: 武器名, type:種別, attr:属性, system:呪文系統, jobs:職業}
+   * @returns {{name: string, type:string, attr:string[], system:string, jobs:string}[], dfclt:stirng} {name: 武器名, type:種別, attr:属性, system:呪文系統, jobs:職業, dfclt:難易度}
    */
   getSpellsArray() {
     const spellsAry = Array.from(document.querySelectorAll('#spells tbody tr:has(.name)')).map(element => {
@@ -288,8 +288,11 @@ export class GS {
       const attr = typeElm.innerText.replace(/.*\(|\).*/g, '').trim().split('、')
       // 呪文系統
       const system = elm.querySelector('.system').innerText.trim()
+      // 職業
       const jobs = {'真言呪文': '魔術師', '奇跡': '神官', '祖竜術': '竜司祭', '精霊術': '精霊使い', '死霊術': '死人占い師'}[system]
-      const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs }
+      // 難易度
+      const dfclt = elm.querySelector('.dfclt').innerText.trim()
+      const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs, dfclt: dfclt }
       return obj
     })
     return spellsAry
