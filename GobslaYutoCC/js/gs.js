@@ -289,7 +289,7 @@ export class GS {
       // 呪文系統
       const system = elm.querySelector('.system').innerText.trim()
       // 職業
-      const jobs = {'真言呪文': '魔術師', '奇跡': '神官', '祖竜術': '竜司祭', '精霊術': '精霊使い', '死霊術': '死人占い師'}[system]
+      const jobs = { '真言呪文': '魔術師', '奇跡': '神官', '祖竜術': '竜司祭', '精霊術': '精霊使い', '死霊術': '死人占い師' }[system]
       // 難易度
       const dfclt = elm.querySelector('.dfclt').innerText.trim()
       const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs, dfclt: dfclt }
@@ -370,7 +370,14 @@ export class GS {
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
       commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
       const achievement = (/先制判定|命中判定|呪文行使判定|挑発判定|移動妨害判定/.test(title)) ? '' : `>={${options.targetValue}}`
-      const commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
+      let commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
+
+      // 呪文行使のコマンド
+      if (/呪文行使判定/.test(title)) {
+        const { attr, dfclt, jobs, name, system, type } = object.spells
+        commands = `GS${commandsText}>=(${dfclt}) 〈${title}${name}〉 期待値(${averageNumber})`
+      }
+
       return commands
     }
     /**
@@ -503,7 +510,26 @@ export class GS {
           })
           replacements.forEach(replacement => accumulator.push(replacement))
         }
-        else if (/呪文(行使|維持)判定/.test(object.title)) {
+        else if (/呪文行使判定/.test(object.title)) {
+          const spellsArray = this.getSpellsArray()
+          // 判定一覧の職業ごとに処理
+          object.classes.forEach(classes => {
+            const classesMax = this.getClassesMaxValue([classes])
+            // 職業がない時は除外
+            if (!classesMax) return
+            // 呪文一覧ごとに処理
+            spellsArray.forEach(spellsObject => {
+              // 一致しない職業は除外
+              if (classes != spellsObject.jobs) return
+              const newObject = { ...object, classes: [classes], spells: spellsObject }
+              accumulator.push(newObject)
+            })
+            // 配列ではなく単一のクラスとして設定
+            //const newObject = { ...object, title: `${object.title}（${classes}）`, classes: [classes] }
+            //if (classesMax) accumulator.push(newObject)
+          })
+        }
+        else if (/呪文維持判定/.test(object.title)) {
           object.classes.forEach(classes => {
             const classesMax = this.getClassesMaxValue([classes])
             // 配列ではなく単一のクラスとして設定

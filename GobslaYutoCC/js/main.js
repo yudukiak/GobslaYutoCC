@@ -62,8 +62,6 @@
     setOptions(globalOptions)
   })
 
-  console.log(' getSpellsArray()', gs. getSpellsArray())
-
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
     const options = getOptions(characterSheetID)
