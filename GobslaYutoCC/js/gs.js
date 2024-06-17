@@ -407,12 +407,10 @@ export class GS {
         }
       }
       // 武器 {label: string, value: number} || null
-      let weaponsVar = ''
       let weaponsTxt = ''
       let weaponsPower = ''
       if (weapons) {
         const weaponsLabel = weapons.label
-        weaponsVar = `//${weaponsLabel}=${weapons.value}\n`
         weaponsTxt = `+{${weaponsLabel}}`
         averageNumber = averageNumber + weapons.value
         // ダメージ
@@ -430,7 +428,7 @@ export class GS {
       else {
         commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
         const achievement = (/先制判定|命中判定|挑発判定|移動妨害判定/.test(title)) ? '' : `>={${options.targetValue}}`
-        commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
+        commands = `GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
       }
 
       return commands
