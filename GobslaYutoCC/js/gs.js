@@ -330,6 +330,28 @@ export class GS {
   /**
    * 
    */
+  getShieldsArray() {
+    const options = this.options
+    const shieldsAry = Array.from(document.querySelectorAll('#shield tbody:has(.name)')).map((element, index) => {
+      const elm = element.cloneNode(true)
+      // 盾名
+      if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
+      const name = elm.querySelector('.name').innerText.trim()
+      // 武器のバフ
+      const sumElm = elm.querySelector('.block b')
+      if (sumElm) sumElm.innerHTML = ''
+      const blockElm = elm.querySelector('.block')
+      const block = blockElm.innerText.trim().replace(/=/g, '')
+      const value = Number(block)
+      const obj = { name: name, value: value }
+      return obj
+    })
+    return shieldsAry
+  }
+
+  /**
+   * 
+   */
   getCommands() {
     const options = this.options
     /**
@@ -453,24 +475,14 @@ export class GS {
           replacements.forEach(replacement => accumulator.push(replacement))
         }
         else if (object.title === '盾受け判定') {
-          const replacements = Array.from(document.querySelectorAll('#shield tbody:has(.name)')).map((element, index) => {
-            const elm = element.cloneNode(true)
-            // 武器名
-            if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
-            const weaponsName = elm.querySelector('.name').innerText.trim()
-            // 武器のバフ
-            const sumElm = elm.querySelector('.block b')
-            if (sumElm) sumElm.innerHTML = ''
-            const blockElm = elm.querySelector('.block')
-            const block = blockElm.innerText.trim().replace(/=/g, '')
-            const weaponsBuff = Number(block)
-            // オブジェクト
+          const shieldsArray = this.getShieldsArray()
+          const replacements = shieldsArray.map((obj, index) => {
             const newObject = {
               ...object,
-              title: `${object.title} ${index + 1}.${weaponsName}`,
+              title: `${object.title} ${index + 1}.${obj.name}`,
               weapons: {
-                label: `${index + 1}.${weaponsName}`,
-                value: weaponsBuff
+                label: `${index + 1}.${obj.name}`,
+                value: obj.value
               }
             }
             return newObject
@@ -615,12 +627,24 @@ export class GS {
     // 武器の命中基準値
     const weaponsArray = this.getWeaponsArray()
     weaponsArray.forEach((object, index) => {
-      const weaponsName = object.name
-      const label = `${index + 1}.${weaponsName}`
+      const label = `${index + 1}.${object.name}`
       const value = String(object.hit)
       params.push({ label: label, value: value })
     })
     // 防具の回避基準値
+    const armorsArray = this.getArmorsArray()
+    armorsArray.forEach((object, index) => {
+      const label = `${index + 1}.${object.name}`
+      const value = String(object.value)
+      params.push({ label: label, value: value })
+    })
+    // 盾受け
+    const shieldsArray = this.getShieldsArray()
+    shieldsArray.forEach((object, index) => {
+      const label = `${index + 1}.${object.name}`
+      const value = String(object.value)
+      params.push({ label: label, value: value })
+    })
 
     // テキストカラー
     // https://qiita.com/Ynolen/items/05ed15ba6a33e9986c53
