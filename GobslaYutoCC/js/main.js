@@ -27,7 +27,7 @@
   const htmlFile = await fetch(htmlFileURL)
   const html = await htmlFile.text()
   document.querySelector('.back-button').insertAdjacentHTML('afterend', html)
-  
+
   const manifestFile = chrome.runtime.getManifest()
   document.getElementById('version').innerText = manifestFile.version
 
@@ -67,7 +67,7 @@
     const options = getOptions(characterSheetID)
     chrome.storage.sync.set(options)
     console.log('[GYCC] - set - options:', options)
-    const gsOptions = {...options.global, ...options[characterSheetID]}
+    const gsOptions = { ...options.global, ...options[characterSheetID] }
     try {
       const json = gs.getJson(gsOptions)
       console.log('[GYCC] - object:', JSON.parse(json))
