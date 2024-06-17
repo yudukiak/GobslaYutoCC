@@ -227,9 +227,11 @@ export class GS {
    * @returns {{name: name, type:type, hit:hit, power:power, jobs:jobs}[]} {name: 武器名, type:武器種, hit:命中, power:威力, jobs:職業}
    */
   getWeaponsArray() {
+    const options = this.options
     const weponsAry = Array.from(document.querySelectorAll('#weapons tbody:has(.name)')).map(element => {
       const elm = element.cloneNode(true)
       // 武器名
+      if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
       const name = elm.querySelector('.name').innerText.trim()
       // 武器種（【武器：〇〇】に使用）
       const type = (_ => {
@@ -638,6 +640,17 @@ export class GS {
     const spellsArray = this.getSpellsArray()
     const spellCast = (spellsArray.length) ? spellsArray[0].spellCast : '0'
     params.push({ label: '呪文行使基準値', value: spellCast })
+
+    // 武器の命中基準値
+    const weaponsArray = this.getWeaponsArray()
+    console.log('👘 - getJson - weaponsArray:', weaponsArray)
+    weaponsArray.forEach((object, index) => {
+      const weaponsName = object.name
+      const label = `${index + 1}.${weaponsName}`
+      const value = String(object.hit)
+      params.push({ label: label, value: value })
+    })
+    // 防具の回避基準値
 
     // テキストカラー
     // https://qiita.com/Ynolen/items/05ed15ba6a33e9986c53
