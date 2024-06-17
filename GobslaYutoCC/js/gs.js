@@ -283,7 +283,7 @@ export class GS {
       const elm = element.cloneNode(true)
       // 呪文名
       if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
-        const name = elm.querySelector('.name').innerText.trim()
+      const name = elm.querySelector('.name').innerText.trim()
       // 種別（【呪文熟達：〇〇】に使用）
       const typeElm = elm.querySelector('.type')
       const type = typeElm.innerText.replace(/\(.*\)/, '').trim()
@@ -294,7 +294,10 @@ export class GS {
       const jobs = { '真言呪文': '魔術師', '奇跡': '神官', '祖竜術': '竜司祭', '精霊術': '精霊使い', '死霊術': '死人占い師' }[system]
       // 難易度
       const dfclt = elm.querySelector('.dfclt').innerText.trim()
-      const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs, dfclt: dfclt }
+      // 呪文行使基準値
+      const spellCastTitleElm = document.querySelector('#spell-cast td[colspan="4"]')
+      const spellCast = (spellCastTitleElm) ? spellCastTitleElm.nextElementSibling.innerText.trim() : '0'
+      const obj = { name: name, type: type, attr: attr, system: system, jobs: jobs, dfclt: dfclt, spellCast: spellCast }
       return obj
     })
     return spellsAry
@@ -370,14 +373,18 @@ export class GS {
         if (weapons.power) weaponsPower = `\n${weapons.power} 〈${weapons.label} ダメージ〉}`
       }
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
-      commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
-      const achievement = (/先制判定|命中判定|呪文行使判定|挑発判定|移動妨害判定/.test(title)) ? '' : `>={${options.targetValue}}`
-      let commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
-
+      let commands = ''
       // 呪文行使のコマンド
       if (/呪文行使判定/.test(title)) {
-        const { attr, dfclt, jobs, name, system, type } = object.spells
-        commands = `GS${commandsText}>=(${dfclt}) 〈${title}${name}〉 期待値(${averageNumber})`
+        const { attr, dfclt, jobs, name, system, spellCast, type } = object.spells
+        averageNumber = averageNumber + Number(spellCast)
+        commands = `GS+(${commandsText}+{呪文行使基準値})>=(${dfclt}) 〈${title}${name}〉 期待値(${averageNumber})`
+      }
+      // それ以外のコマンド
+      else {
+        commandsText = (commandsText.length) ? `+(${commandsText}${weaponsTxt})` : ''
+        const achievement = (/先制判定|命中判定|挑発判定|移動妨害判定/.test(title)) ? '' : `>={${options.targetValue}}`
+        commands = `${weaponsVar}GS${commandsText}${achievement} 〈${title}〉 期待値(${averageNumber}${skillsAdd})${weaponsPower}`
       }
 
       return commands
@@ -627,6 +634,10 @@ export class GS {
       }
       return accumulator
     }, [])
+    // 呪文行使基準値
+    const spellsArray = this.getSpellsArray()
+    const spellCast = (spellsArray.length) ? spellsArray[0].spellCast : '0'
+    params.push({ label: '呪文行使基準値', value: spellCast })
 
     // テキストカラー
     // https://qiita.com/Ynolen/items/05ed15ba6a33e9986c53
