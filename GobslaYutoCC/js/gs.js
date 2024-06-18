@@ -418,8 +418,11 @@ export class GS {
       }
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
       let commands = ''
+      if (/祈念判定/.test(title)) {
+        commands = `MCPI({幸運})\${因果点} 〈祈念判定〉 期待値(${averageNumber})`
+      }
       // 呪文行使のコマンド
-      if (/呪文(行使|維持)判定/.test(title)) {
+      else if (/呪文(行使|維持)判定/.test(title)) {
         const { attr, dfclt, jobs, name, system, spellCast, type } = object.spells
         averageNumber = averageNumber + Number(spellCast)
         // 呪文の設定にてボーナスを追加しているか？
