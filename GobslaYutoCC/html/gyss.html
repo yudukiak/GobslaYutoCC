@@ -1,6 +1,6 @@
 <article id="gycc">
-  <section class="box">
-    <h2 class="d-flex-full">「GYCC拡張機能」設定</h2>
+  <section class="flex box">
+    <h2 class="flex-100">「GYCC拡張機能」設定</h2>
     <!--
     <div>
       <input type="checkbox" id="gycc_title" name="gycc_title"/>
@@ -27,13 +27,15 @@
       <label for="gycc_targetValue">「ルーム変数」名</label>
       <input type="text" id="gycc_targetValue" value="目標値">
     </div>
-    <h2 class="d-flex-full">キャラごとの設定</h2>
+    <h2 class="flex-100">キャラごとの設定</h2>
     <div>
       <label for="gycc_parry">「受け流し」の補正値</label>
       <input type="number" id="gycc_parry" value="0" disabled>
     </div>
-    <h2 class="d-flex-full">駒を生成する</h2>
-    <div class="d-flex-full">
+    <h2 class="flex-100">呪文の設定</h2>
+    <div data-slells class="flex flex-100 flex-wrap justify-between"></div>
+    <h2 class="flex-100">駒を生成する</h2>
+    <div class="flex-100 text-center">
       <div class="btn" id="gycc_getJson">
         <svg>
           <rect x="2" y="2" rx="0" fill="none" width=200 height="50"></rect>
@@ -41,8 +43,8 @@
         <span>コピーする</span>
       </div>
     </div>
-    <div class="d-flex-full">
-      <button id="gycc_storageClear" class="d-none">設定を削除する</button>
+    <div class="flex-100 text-right">
+      <button id="gycc_storageClear" class="hidden">設定を削除する</button>
       v
       <span id="version">0.0.0</span>
     </div>

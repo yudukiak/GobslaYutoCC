@@ -19,16 +19,13 @@
   }
 
   section {
-    display: flex;
     flex-wrap: wrap;
-    text-align: center;
 
     div {
       margin: .5em 1em;
     }
 
     div:has(#version) {
-      text-align: right;
       font-size: 1rem;
     }
 
@@ -36,17 +33,45 @@
       text-align: left;
     }
 
+    input[type="text"] {
+      width: 100px;
+    }
+
+    input[type="number"] {
+      width: 50px;
+    }
+
     input:disabled {
       background-color: var(--box-outside-border-color);
     }
   }
 
-  .d-none {
+  .hidden {
     display: none;
   }
 
-  .d-flex-full {
+  .flex {
+    display: flex;
+  }
+
+  .flex-100 {
     flex: 1 1 100%;
+  }
+
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
   }
 
   .btn {

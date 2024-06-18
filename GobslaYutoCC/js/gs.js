@@ -284,7 +284,7 @@ export class GS {
     const spellsAry = Array.from(document.querySelectorAll('#spells tbody tr:has(.name)')).map(element => {
       const elm = element.cloneNode(true)
       // 呪文名
-      if (!options.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
+      if (!options?.ruby) Array.from(elm.querySelectorAll('.name rp, .name rt')).forEach(e => e.innerHTML = '')
       const name = elm.querySelector('.name').innerText.trim()
       // 種別（【呪文熟達：〇〇】に使用）
       const typeElm = elm.querySelector('.type')
@@ -419,9 +419,16 @@ export class GS {
       let commandsText = commandsArray.map(v => `{${v}}`).join('+')
       let commands = ''
       // 呪文行使のコマンド
-      if (/呪文行使判定/.test(title)) {
+      if (/呪文(行使|維持)判定/.test(title)) {
         const { attr, dfclt, jobs, name, system, spellCast, type } = object.spells
         averageNumber = averageNumber + Number(spellCast)
+        // 呪文の設定にてボーナスを追加しているか？
+        const spellsName = name.replace(/\(.*\)/, '')
+        const spellBonus = options[`spell_bonus_${spellsName}`]
+        if (spellBonus !== 0) {
+          averageNumber = averageNumber + Number(spellBonus)
+          commandsText = `${commandsText}+${spellBonus}`
+        }
         commands = `GS+(${commandsText}+{呪文行使基準値})>=(${dfclt}) 〈${title}${name}〉 期待値(${averageNumber})`
       }
       // それ以外のコマンド
@@ -526,11 +533,27 @@ export class GS {
           })
         }
         else if (/呪文維持判定/.test(object.title)) {
+          const spellsArray = this.getSpellsArray()
+          // 判定一覧の職業ごとに処理
           object.classes.forEach(classes => {
             const classesMax = this.getClassesMaxValue([classes])
-            // 配列ではなく単一のクラスとして設定
-            const newObject = { ...object, title: `${object.title}（${classes}）`, classes: [classes] }
-            if (classesMax) accumulator.push(newObject)
+            // 職業がない時は除外
+            if (!classesMax) return
+            // 呪文一覧ごとに処理
+            spellsArray.forEach(spellsObject => {
+              // 一致しない職業は除外
+              if (classes != spellsObject.jobs) return
+              // 呪文熟達を持っているか
+              const skillsMax = this.getSkillsMaxValue([`呪文熟達：${spellsObject.type}`])
+              const skills = (skillsMax) ? [`呪文熟達：${spellsObject.type}`] : object.skills
+              // 呪文維持判定をONにしているか
+              const spellsName = spellsObject.name.replace(/\(.*\)/, '')
+              const isSpellMaint = options[`spell_maint_${spellsName}`]
+              if (isSpellMaint == false) return
+              // オブジェクトを作成
+              const newObject = { ...object, classes: [classes], skills: skills, spells: spellsObject }
+              accumulator.push(newObject)
+            })
           })
         }
         // 第二がGMの場合、3種追加

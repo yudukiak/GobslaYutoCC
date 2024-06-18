@@ -5,16 +5,17 @@
    * @returns {{string: any}}
    */
   const getOptions = characterSheetID => {
-    // localに含まれる設定はキャラクターごと
-    const local = ['parry']
+    // localsに含まれる設定はキャラクターごと
+    const locals = ['parry', 'spell_maint_']
     // optionsを生成
     const options = { [characterSheetID]: {}, global: {} }
     Array.from(document.querySelectorAll('#gycc input')).forEach(elm => {
       const id = elm.id.replace(/gycc_/, '')
       const type = elm.type
       const value = (/checkbox/.test(type)) ? elm.checked : elm.value
-      // localの対象はキャラクターIDに振り分け
-      if (local.includes(id)) {
+      // localsの対象はキャラクターIDに振り分け
+      const filtered = locals.filter(local => new RegExp(local).test(id))
+      if (filtered.length) {
         options[characterSheetID][id] = value
       } else {
         options.global[id] = value
@@ -41,6 +42,24 @@
     parryParentElm.disabled = false
   }
 
+  // 呪文の設定
+  gs.getSpellsArray().forEach(obj => {
+    const name = obj.name
+    const html = `
+    <div>
+      <p>${name}</p>
+      <div>
+        <input type="checkbox" id="gycc_spell_maint_${name}" />
+        <label for="gycc_spell_maint_${name}">〈呪文維持判定〉</label>
+      </div>
+      <div class="flex justify-between">
+        <label for="gycc_spell_bonus_${name}">ボーナス</label>
+        <input type="number" id="gycc_spell_bonus_${name}" value="0">
+      </div>
+    </div>`
+    document.querySelector('[data-slells]').insertAdjacentHTML('beforeend', html)
+  })
+
   // 設定を読み込み
   const characterSheetID = new URL(location.href).searchParams.get('id')
   chrome.storage.sync.get().then((options) => {
@@ -49,10 +68,12 @@
       if (opt == null) return
       Object.keys(opt).forEach((key) => {
         const value = opt[key]
+        const elm = document.querySelector(`#gycc_${key}`)
+        if (elm == null) return
         if (typeof value === 'boolean') {
-          document.querySelector(`#gycc_${key}`).checked = value
+          elm.checked = value
         } else {
-          document.querySelector(`#gycc_${key}`).value = value
+          elm.value = value
         }
       })
     }
