@@ -605,12 +605,19 @@ export class GS {
     // URL
     const externalUrl = location.href
 
+    let status = []
     // 生命力
     const lifeTxt = document.querySelector('#lifeforce .total:nth-of-type(2) b').innerText
     const lifeNum = Number(lifeTxt)
+    status.push({ label: '生命力', value: lifeNum, max: lifeNum })
     // 呪文
     const spellsTxt = document.querySelector('#movement + dl .total b').innerText
     const spellsNum = Number(spellsTxt)
+    status.push({ label: '呪文回数', value: spellsNum, max: spellsNum })
+    // 継戦
+    if (options.counter) status.push({ label: '継戦', value: 0, max: 0 })
+    // 消耗
+    status.push({ label: '消耗', value: 0, max: 0 })
 
     // パラメータの配列を作成
     const abilityArray = this.getAbilityArray()
@@ -708,28 +715,7 @@ export class GS {
         memo: memo,
         initiative: initiative,
         externalUrl: externalUrl,
-        status: [
-          {
-            label: '生命力',
-            value: lifeNum,
-            max: lifeNum
-          },
-          {
-            label: '呪文回数',
-            value: spellsNum,
-            max: spellsNum,
-          },
-          {
-            label: '継戦',
-            value: 0,
-            max: 0
-          },
-          {
-            label: '消耗',
-            value: 0,
-            max: 0
-          },
-        ],
+        status: status,
         params: params,
         color: color,
         commands: commands
