@@ -424,6 +424,7 @@ export class GS {
       // 呪文行使のコマンド
       else if (/呪文(行使|維持)判定/.test(title)) {
         const { attr, dfclt, jobs, name, system, spellCast, type } = object.spells
+        const difficult = (/呪文行使判定/.test(title)) ? dfclt : `${dfclt}+5`
         averageNumber = averageNumber + Number(spellCast)
         // 呪文の設定にてボーナスを追加しているか？
         const spellsName = name.replace(/\(.*\)/, '')
@@ -432,7 +433,7 @@ export class GS {
           averageNumber = averageNumber + Number(spellBonus)
           commandsText = `${commandsText}+${spellBonus}`
         }
-        commands = `GS+(${commandsText}+{呪文行使基準値})>=(${dfclt}) 〈${title}${name}〉 期待値(${averageNumber})`
+        commands = `GS+(${commandsText}+{呪文行使基準値})>=(${difficult}) 〈${title}${name}〉 期待値(${averageNumber})`
       }
       // それ以外のコマンド
       else {
