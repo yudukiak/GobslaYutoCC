@@ -8,7 +8,7 @@ export class GS {
    */
   getAbilityArray() {
     // インスタンス変数に存在する場合は処理しない
-    if (this.abilityArray) return this.abilityArray
+    //if (this.abilityArray) return this.abilityArray
     // 能力値を1つずつ処理
     const abilityAry = Array.from(document.querySelectorAll('#ability dt')).map(elm => {
       const labelTxt = elm.textContent
@@ -24,7 +24,7 @@ export class GS {
     // nullを除外
     const abilityArray = abilityAry.filter(Boolean)
     // インスタンス変数に保存
-    this.abilityArray = abilityArray
+    //this.abilityArray = abilityArray
     return abilityArray
   }
 
@@ -52,7 +52,7 @@ export class GS {
    */
   getClassesArray() {
     // インスタンス変数に存在する場合は処理しない
-    if (this.classesArray) return this.classesArray
+    //if (this.classesArray) return this.classesArray
     // 「冒険者」の配列を作成
     const levelElm = document.querySelector('#level dd')
     const levelTxt = levelElm.textContent
@@ -75,7 +75,7 @@ export class GS {
     })
     const classesArray = [...levelAry, ...classesAry]
     // インスタンス変数に保存
-    this.classesArray = classesArray
+    //this.classesArray = classesArray
     return classesArray
   }
 
@@ -110,7 +110,7 @@ export class GS {
    */
   getSkillsArray() {
     // インスタンス変数に存在する場合は処理しない
-    if (this.skillsArray) return this.skillsArray
+    //if (this.skillsArray) return this.skillsArray
     // 冒険者技能・一般技能を1つずつ処理
     const skillsAry = Array.from(document.querySelectorAll('#area-skills .name')).map(elm => {
       // 技能名
@@ -181,7 +181,7 @@ export class GS {
     // nullを除外
     const skillsArray = skillsAry.filter(Boolean)
     // インスタンス変数に保存
-    this.skillsArray = skillsArray
+    //this.skillsArray = skillsArray
     return skillsArray
   }
 
@@ -571,7 +571,8 @@ export class GS {
    */
   getJson(options) {
     // インスタンス変数に存在しない場合は保存
-    if (this.options == null) this.options = options
+    //if (this.options == null) this.options = options
+    this.options = options
     // 名前
     const name = document.getElementById('character-name').innerText
     // メモ
