@@ -512,6 +512,8 @@ export class GS {
             return newObject
           })
           replacements.forEach(replacement => accumulator.push(replacement))
+          // 防具がない場合
+          if (armorsArray.length === 0) accumulator.push(object)
         }
         else if (/呪文行使判定/.test(object.title)) {
           const spellsArray = this.getSpellsArray()
