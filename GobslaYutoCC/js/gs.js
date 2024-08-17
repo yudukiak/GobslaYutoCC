@@ -118,7 +118,7 @@ export class GS {
       const labelTrm = labelTxt.trim()
       const labelMth = labelTrm.match(/【(.*?)】/)
       if (labelMth == null) return null
-      const label = labelMth[1]
+      const label = labelMth[1].replace(/:/, '：')
       // 取得段階
       const gradeElm = elm.nextElementSibling
       const gradeTxt = gradeElm.textContent
