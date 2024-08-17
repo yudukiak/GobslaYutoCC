@@ -397,14 +397,18 @@ export class GS {
         averageNumber = averageNumber + classesMax.value
       }
       // 技能 {label: string, value: number, add: string} || null
-      const skillsMax = this.getSkillsMaxValue(skills)
-      if (skillsMax) {
-        commandsArray.push(skillsMax.label)
-        averageNumber = averageNumber + skillsMax.value
-        if (skillsMax.add) {
-          commandsArray.push(`${skillsMax.label}補正`)
-          skillsAdd = skillsMax.add
-        }
+      if (skills) {
+        skills.forEach(skill => {
+          const skillMax = this.getSkillsMaxValue([skill])
+          if (skillMax) {
+            commandsArray.push(skillMax.label)
+            averageNumber = averageNumber + skillMax.value
+            if (skillMax.add) {
+              commandsArray.push(`${skillMax.label}補正`)
+              skillsAdd = skillMax.add
+            }
+          }
+        })
       }
       // 武器 {label: string, value: number} || null
       let weaponsTxt = ''
