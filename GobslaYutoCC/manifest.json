@@ -22,7 +22,7 @@
   },
   "manifest_version": 3,
   "name": "GobslaYutoCC",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "web_accessible_resources": [
     {
       "matches": [
