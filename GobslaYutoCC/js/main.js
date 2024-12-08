@@ -68,7 +68,7 @@
       if (opt == null) return
       Object.keys(opt).forEach((key) => {
         const value = opt[key]
-        const elm = document.querySelector(`#gycc_${key}`)
+        const elm = document.querySelector(`[id="#gycc_${key}"]`)
         if (elm == null) return
         if (typeof value === 'boolean') {
           elm.checked = value
