@@ -648,7 +648,7 @@ export class GS {
     const paramsArray = [...abilityArray, ...classesArray, ...skillsArray, ...notSkillsArray]
     const params = paramsArray.reduce((accumulator, object) => {
       // 元のアイテムを追加
-      const pushObject = { label: object.label, value: object.value.toString() }
+      const pushObject = { label: object.label, value: object.value?.toString() }
       accumulator.push(pushObject)
       // addがある場合は補正パラメータを追加
       if (object.add != null) {
