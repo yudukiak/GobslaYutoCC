@@ -9,7 +9,8 @@
         "js/main.js"
       ],
       "matches": [
-        "https://yutorize.2-d.jp/ytsheet/gs/?id=*"
+        "https://yutorize.2-d.jp/ytsheet/gs/?id=*",
+        "https://yutorize.work/ytsheet/gs/?id=*"
       ],
       "run_at": "document_end"
     }
