@@ -27,7 +27,7 @@
   const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
   const htmlFile = await fetch(htmlFileURL)
   const html = await htmlFile.text()
-  document.querySelector('.back-button').insertAdjacentHTML('afterend', html)
+  document.getElementById('character').insertAdjacentHTML('beforeend', html)
 
   const manifestFile = chrome.runtime.getManifest()
   document.getElementById('version').innerText = manifestFile.version
