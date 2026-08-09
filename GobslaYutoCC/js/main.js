@@ -1,4 +1,6 @@
 (async () => {
+  const extensionApi = globalThis.browser ?? globalThis.chrome
+
   /**
    * オプションを取得
    * @param {string} characterSheetID
@@ -8,7 +10,7 @@
     // localsに含まれる設定はキャラクターごと
     const locals = ['parry', 'spell_maint_']
     // optionsを生成
-    const options = { [characterSheetID]: {}, global: {} }
+    const options = Object.assign(Object.create(null), { [characterSheetID]: Object.create(null), global: Object.create(null) })
     Array.from(document.querySelectorAll('#gycc input')).forEach(elm => {
       const id = elm.id.replace(/gycc_/, '')
       const type = elm.type
@@ -24,15 +26,15 @@
     return options
   }
 
-  const htmlFileURL = chrome.runtime.getURL('html/gyss.html')
+  const htmlFileURL = extensionApi.runtime.getURL('html/gyss.html')
   const htmlFile = await fetch(htmlFileURL)
   const html = await htmlFile.text()
   document.getElementById('character').insertAdjacentHTML('beforeend', html)
 
-  const manifestFile = chrome.runtime.getManifest()
+  const manifestFile = extensionApi.runtime.getManifest()
   document.getElementById('version').innerText = manifestFile.version
 
-  const gsjs = chrome.runtime.getURL('js/gs.js')
+  const gsjs = extensionApi.runtime.getURL('js/gs.js')
   const { GS } = await import(gsjs)
   const gs = new GS()
 
@@ -62,7 +64,16 @@
 
   // 設定を読み込み
   const characterSheetID = new URL(location.href).searchParams.get('id')
-  chrome.storage.sync.get().then((options) => {
+  if (
+    characterSheetID == null ||
+    characterSheetID === '__proto__' ||
+    characterSheetID === 'constructor' ||
+    characterSheetID === 'prototype'
+  ) {
+    console.log('[GYCC] - error: キャラクターシートIDが不正です')
+    return
+  }
+  extensionApi.storage.sync.get().then((options) => {
     console.log('[GYCC] - get - options:', options)
     const setOptions = opt => {
       if (opt == null) return
@@ -86,7 +97,7 @@
   const buttonElm = document.querySelector('#gycc .btn')
   buttonElm.addEventListener('click', e => {
     const options = getOptions(characterSheetID)
-    chrome.storage.sync.set(options)
+    extensionApi.storage.sync.set(options)
     console.log('[GYCC] - set - options:', options)
     const gsOptions = { ...options.global, ...options[characterSheetID] }
     try {
@@ -103,7 +114,7 @@
   })
 
   const clearElm = document.getElementById('gycc_storageClear')
-  clearElm.addEventListener('click', e => chrome.storage.sync.clear().then(_ => {
+  clearElm.addEventListener('click', e => extensionApi.storage.sync.clear().then(_ => {
     alert('[GYCC] 設定を削除しました。')
     location.reload()
   }))
