@@ -74,7 +74,7 @@
     return
   }
   extensionApi.storage.sync.get().then((options) => {
-    console.log('[GYCC] - get - options:', options)
+    console.log('[GYCC] - 設定を取得:', options)
     const setOptions = opt => {
       if (opt == null) return
       Object.keys(opt).forEach((key) => {
@@ -98,18 +98,18 @@
   buttonElm.addEventListener('click', e => {
     const options = getOptions(characterSheetID)
     extensionApi.storage.sync.set(options)
-    console.log('[GYCC] - set - options:', options)
+    console.log('[GYCC] - 設定を保存:', options)
     const gsOptions = { ...options.global, ...options[characterSheetID] }
     try {
       const json = gs.getJson(gsOptions)
-      console.log('[GYCC] - object:', JSON.parse(json))
+      console.log('[GYCC] - 生成オブジェクト:', JSON.parse(json))
       navigator.clipboard.writeText(json).then(
         () => alert('[GYCC] クリップボードにコピーしました👍\n\nココフォリアにペーストすることで駒を作成できます。'),
         () => alert(`[GYCC] クリップボードへのコピーに失敗しました😭\n\nブラウザの再起動など試してください。`)
       )
     } catch (error) {
-      console.log('[GYCC] - error:', error)
-      alert(`[GYCC] 駒の作成に失敗しました😭\n\nerror: ${error}`)
+      console.log('[GYCC] - エラー:', error)
+      alert(`[GYCC] 駒の作成に失敗しました😭\n\nエラー: ${error}`)
     }
   })
 
